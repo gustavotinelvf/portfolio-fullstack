@@ -4,7 +4,6 @@ import com.gustavo.portfolio.model.Projeto;
 import com.gustavo.portfolio.repository.ProjetoRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
-import java.util.List; // até então não usada
 import java.util.Arrays;
 
 @Configuration // 1. Comunica ao Spring que esta classe é de configuração, ou seja, ela pode conter beans e outras configurações
