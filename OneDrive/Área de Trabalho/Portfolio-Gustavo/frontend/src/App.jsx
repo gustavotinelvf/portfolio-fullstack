@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
+import ProjetoCard from './components/ProjetoCard';
 import './App.css'
 
 function App() {
@@ -12,39 +13,26 @@ function App() {
 
   //2. Efeito (o que acontece quando o componente aparece na tela)
   // O useEffect roda assim que o componente aparece na tela
-  useEffect(() => {
-    // chama o backend (Java)
+  useEffect(() =>{
+    // busca o backend java
     axios.get('http://localhost:8080/api/projetos')
-      .then(resposta => {
-        // se der certo, guarda os dados na memória (estado)
-        setProjetos(resposta.data);
-      })
-      .catch(erro => {
-        // se der erro, mostra no console
-        console.error("Erro ao buscar projetos:", erro)
-      })
-  }, []) // Esse [] vazio significa que o efeito roda só uma vez, quando o componente aparece
+      .then(resposta => setProjetos(resposta.data))
+      .catch(erro => console.error("Erro:", erro))
+  }, [])
 
-  // 3. Renderização (HTML que vai pra tela)
   return (
-    <div style={{ padding: '20px'}}>
-      <h1>Meus Projetos</h1>
+    <div className="container">
+      <header className="header">
+        <h1>Meu Portfólio Full Stack</h1>
+        <p>Desenvolvido com Java Spring Boot & React</p>
+      </header>
 
-      {/*se a lista estiver vazia, avisa*/}
-      {projetos.length === 0 ? (
-        <p>Carregando ou sem projetos...</p>
-      ) : (
-        /*Mapeia cada projeto do Java para um pedaço de <HTML>*/
-        <ul>
-          {projetos.map(projeto => (
-            <li key={projeto.id} style={{ marginBottom: '20px', border: '1px solid #ccc', padding: '10px' }}>
-              <h3>{projeto.titulo}</h3>
-              <p>{projeto.descricao}</p>
-              <a href={projeto.linkGitHub} target="_blank">Ver no GitHub</a>
-            </li>
-          ))}
-        </ul>
-      )}
+      <main className="projects-grid">
+        {/* Aqui está a mágica: Para cada projeto, criamos um <ProjetoCard /> */}
+        {projetos.map(projeto => (
+          <ProjetoCard key={projeto.id} projeto={projeto} />
+        ))}
+      </main>
     </div>
   )
 }

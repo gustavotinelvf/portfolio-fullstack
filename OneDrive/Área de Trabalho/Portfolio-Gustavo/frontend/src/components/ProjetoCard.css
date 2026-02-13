@@ -1,0 +1,51 @@
+.card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /*Sombra suave*/
+    overflow: hidden; /*Garante que a imagem não saia da borda arredondada*/
+    transition: transform 0.2s; /*Animação ao passar o mouse*/
+    display: flex;
+    flex-direction: column;
+    height: 100%; /*Para cards ficarem da mesma*/
+}
+
+.card:hover{
+    transform: translateY(-5px);/*Sobe um pouco quando passar o mouse para destacar*/
+    box-shadow: 0 8px 16px rgba(0, 2, 0, 0.2);
+}
+
+.card-content{
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.card-cont h3{
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 1.2rem;
+}
+
+.card-content p {
+    color: #666;
+    font-size: 1.2rem;
+    line-height: 1.5;
+    flex-grow: 1;
+}
+
+.btn-github {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    background-color: #23292e;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.btn-github:hover{
+    background-color: #000;
+}
