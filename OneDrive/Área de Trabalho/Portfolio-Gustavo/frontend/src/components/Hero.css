@@ -1,0 +1,87 @@
+.hero-container {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); /* Fundo escuro moderno */
+    color: white;
+    padding: 80px 20px;
+    text-align: center;
+    border-radius: 0 0 20px 20px; /* Arredonda só as pontas de baixo */
+    margin-bottom: 40px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.greeting {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #94a3b8; /* Cinza azulado */
+    margin-bottom: 10px;
+}
+
+.title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin: 0 0 20px 0;
+    line-height: 1.2;
+}
+
+.highlight {
+    color: #38bdf8; /* Azul claro neon */
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #cbd5e1;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+/* BOTÕES */
+.hero-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.btn-primary {
+    background-color: #38bdf8;
+    color: #0f172a;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #0ea5e9;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: #38bdf8;
+    border: 2px solid #38bdf8;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: rgba(56, 189, 248, 0.1);
+}
+
+/* Ajuste para celular */
+@media (max-width: 600px) {
+    .title {
+        font-size: 2rem;
+    }
+    .hero-actions {
+        flex-direction: column;
+    }
+}
