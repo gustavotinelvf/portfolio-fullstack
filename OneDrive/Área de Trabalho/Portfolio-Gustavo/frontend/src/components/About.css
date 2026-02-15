@@ -1,0 +1,97 @@
+/* frontend/src/components/About.css */
+
+.about-container {
+    max-width: 1000px;
+    margin: 0 auto 80px auto; /* Centraliza e dá espaço em baixo */
+    padding: 0 20px;
+}
+
+.about-content {
+    display: flex;
+    align-items: center;
+    gap: 60px; /* Espaço entre texto e foto */
+    background-color: var(--card-bg); /* Fundo cinza escuro */
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    /* Sombra roxa bem suave atrás */
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilo da Imagem/Avatar */
+.about-image img {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%; /* Foto redonda */
+    object-fit: cover;
+    border: 4px solid var(--secondary-color); /* Borda roxa escura */
+    box-shadow: 0 0 20px rgba(157, 78, 221, 0.3); /* Glow */
+    transition: transform 0.3s ease;
+}
+
+.about-image img:hover {
+    transform: scale(1.05);
+    border-color: var(--primary-color);
+}
+
+/* Tipografia */
+.about-text {
+    flex: 1;
+}
+
+.about-title {
+    font-size: 2rem;
+    color: var(--text-main);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.about-text p {
+    color: var(--text-muted);
+    line-height: 1.8; /* Texto fácil de ler */
+    margin-bottom: 15px;
+    font-size: 1.05rem;
+}
+
+.about-text strong {
+    color: var(--primary-color); /* Destaques em roxo */
+}
+
+/* Stats estilo RPG */
+.about-stats {
+    display: flex;
+    gap: 40px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* Responsivo para celular */
+@media (max-width: 768px) {
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px 20px;
+    }
+
+    .about-stats {
+        justify-content: center;
+    }
+}

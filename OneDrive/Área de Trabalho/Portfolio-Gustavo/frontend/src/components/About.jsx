@@ -12,8 +12,8 @@ function About() {
                     {/* Aqui eu puxo minha foto do GitHub. 
                         Se der erro, o 'onError' coloca uma imagem genérica. */}
                     <img 
-                        src="https://github.com/gustavo.png" 
-                        alt="Foto de Gustavo" 
+                        src="minha-foto.jpeg" 
+                        alt="Foto de Gustavo Tínel" 
                         onError={(e) => e.target.src = 'https://via.placeholder.com/300x300?text=G'}
                     />
                 </div>
@@ -25,7 +25,7 @@ function About() {
                     {/* Parágrafo 1: Introdução Acadêmica */}
                     <p>
                         Olá! Sou estudante de <strong>Ciência da Computação na UFS</strong> (Universidade Federal de Sergipe). 
-                        Minha jornada na programação começou com a curiosidade de entender como as coisas funcionam por trás das telas.
+                        Sempre fui apaixonado por tecnologia desde pequeno, e com isso minha jornada na programação começou com a curiosidade de entender como as coisas funcionam por trás das telas.
                     </p>
                     
                     {/* Parágrafo 2: Foco Profissional */}
@@ -36,18 +36,18 @@ function About() {
 
                     {/* Parágrafo 3: Pessoal/Hobbies */}
                     <p>
-                        Quando não estou codando ou estudando para provas de Cálculo e Física, você provavelmente vai me encontrar 
-                        jogando ou resolvendo desafios de lógica.
+                        Quando não estou codando ou estudando, você provavelmente vai me encontrar 
+                        jogando ou na academia.
                     </p>
 
                     {/* Cards de estatísticas estilo "Status de RPG" */}
                     <div className="about-stats">
                         <div className="stat-item">
-                            <span className="stat-number">3+</span>
+                            <span className="stat-number">1+</span>
                             <span className="stat-label">Anos de Estudo</span>
                         </div>
                         <div className="stat-item">
-                            <span className="stat-number">10+</span>
+                            <span className="stat-number">5+</span>
                             <span className="stat-label">Projetos Criados</span>
                         </div>
                     </div>

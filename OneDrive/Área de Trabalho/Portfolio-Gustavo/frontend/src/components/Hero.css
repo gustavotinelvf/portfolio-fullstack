@@ -33,7 +33,7 @@
 /* A saudação "Olá, sou o Gustavo" */
 .greeting {
     display: block; /* Ocupa a linha inteira */
-    font-size: 1.2rem;
+    font-size: 1.8rem;
     font-weight: 500; /* Semi-negrito */
     color: var(--primary-color); /* Roxo neon para chamar atenção logo de cara */
     margin-bottom: 15px;
