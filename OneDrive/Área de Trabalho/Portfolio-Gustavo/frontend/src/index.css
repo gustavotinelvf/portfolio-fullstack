@@ -1,0 +1,16 @@
+:root {
+  /* adicionando minha paleta de cores favorita */
+  --bg-abyss: #0b0c10;       /* Fundo da página (Preto profundo) */
+  --bg-armor: #1f2833;       /* Fundo dos cards (Cinza Chumbo) */
+  --text-silver: #c5c6c7;    /* Texto comum (Prata) */
+  --neon-purple: #b026ff;    /* Roxo Brilhante (Accent) */
+  --neon-blue: #66fcf1;      /* Um azul ciano para detalhes menores (Opcional) */
+  --shadow-glow: 0 0 15px rgba(176, 38, 255, 0.4); /* Brilho roxo */
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-abyss);
+  color: var(--text-silver);
+}

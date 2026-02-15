@@ -1,0 +1,67 @@
+.skills-container {
+    max-width: 1000px;
+    margin: 0 auto 60px auto; /* Centraliza e dá espaço em baixo */
+    padding: 20px;
+}
+
+.skills-title {
+    text-align: center;
+    color: var(--text-main);
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.skills-grid {
+    display: flex;
+    flex-wrap: wrap; /* Se não couber, quebra pra linha de baixo */
+    justify-content: center;
+    gap: 20px;
+}
+
+/* O Cartão de Habilidade estilo "HUD" */
+.skill-card {
+    background-color: var(--card-bg); /* Fundo cinza escuro */
+    border: 1px solid #333;
+    padding: 15px 25px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.2s, border-color 0.2s;
+    min-width: 200px;
+    justify-content: space-between;
+}
+
+/* Efeito ao passar o mouse: Brilha roxo */
+.skill-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 15px rgba(157, 78, 221, 0.2);
+}
+
+.skill-name {
+    font-weight: bold;
+    color: var(--text-main);
+    font-size: 1.1rem;
+}
+
+.skill-level-badge {
+    background-color: rgba(157, 78, 221, 0.15); /* Roxo transparente */
+    color: var(--primary-color);
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+/* Estilo específico para idiomas (borda diferente se quiser) */
+.skill-card.lang {
+    border-left: 3px solid var(--primary-color); /* Borda roxa na esquerda */
+}
+.skill-card.tech {
+    border-left: 3px solid #fff; /* Borda branca na esquerda */
+}

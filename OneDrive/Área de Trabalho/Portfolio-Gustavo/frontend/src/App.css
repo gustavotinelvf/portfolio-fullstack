@@ -1,66 +1,85 @@
+/* Defini as variáveis globais aqui para usar o tema Solo Leveling em todo o site */
+:root {
+  --bg-color: #0b0b0b;        /* Preto quase absoluto (Fundo principal) */
+  --card-bg: #151515;         /* Cinza muito escuro (Fundo dos cards) */
+  --primary-color: #9d4edd;   /* Roxo Neon (Destaques principais) */
+  --secondary-color: #5a189a; /* Roxo Escuro (Degradês e bordas) */
+  --text-main: #e0e0e0;       /* Branco gelo (Texto principal) */
+  --text-muted: #9ca3af;      /* Cinza claro (Textos secundários) */
+  --glow: 0 0 15px rgba(157, 78, 221, 0.5); /* O brilho mágico do poder */
+}
+
+/* Configurei o corpo do site para já começar com o tema dark */
 body {
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-    background-color: #f0f2f5;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  /* Suaviza as fontes para ficarem mais elegantes */
+  -webkit-font-smoothing: antialiased; 
 }
 
-.container{
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px
+/* Container centralizado */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.header{
-    text-align: center;
-    margin-bottom: 40px;
+/* Grid responsivo para os projetos */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+  gap: 25px;
 }
 
-.header h1{
-    color: #2c3e50
+/* Estilo do título das seções (ex: "Meus Projetos") */
+.section-title {
+  text-align: center;
+  margin-bottom: 40px;
+  color: var(--text-main);
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  /* Adicionei uma borda sutil embaixo do título */
+  border-bottom: 2px solid var(--primary-color);
+  display: inline-block;
+  padding-bottom: 10px;
+  /* Centraliza a borda */
+  position: relative; 
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.projects-grid{
-    display: grid;
-
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px
-}
-
-/* Spinner de carregamento */
+/* Spinner de carregamento (agora roxo) */
 .status-message {
-    text-align: center;
-    padding: 50px;
-    color: #666;
+  text-align: center;
+  padding: 50px;
+  color: var(--text-muted);
 }
 
 .spinner {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #38bdf8; /* Azul */
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: spin 1s linear infinite;
-    margin: 0 auto 15px auto;
+  border: 4px solid #2d2d2d;
+  border-top: 4px solid var(--primary-color); /* Roxo */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 15px auto;
+  box-shadow: var(--glow); /* Brilho neon */
 }
 
 @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-/* Mensagem de Erro */
+/* Mensagem de Erro com estilo dark */
 .error-message {
-    background-color: #fee2e2;
-    color: #991b1b;
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    border: 1px solid #f87171;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: 30px;
-    color: #333;
-    font-size: 2rem;
+  background-color: rgba(255, 0, 0, 0.1);
+  color: #ff6b6b;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid #ff6b6b;
 }

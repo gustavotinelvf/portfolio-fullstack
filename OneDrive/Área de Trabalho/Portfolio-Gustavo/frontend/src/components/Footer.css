@@ -1,41 +1,69 @@
+/* frontend/src/components/Footer.css */
+
 .footer {
-    background-color: #0f172a; /* Mesmo tom escuro do Hero */
-    color: #94a3b8;
-    padding: 30px 0;
-    margin-top: 60px; /* Empurra para baixo para não colar no conteúdo */
-    border-top: 1px solid #1e293b;
+    /* Usei preto quase total (#050505) para ser a parte mais escura do site */
+    background-color: #050505; 
+    
+    color: var(--text-muted); /* Texto cinza suave */
+    padding: 40px 0; /* Espaço vertical */
+    
+    /* Margem superior grande para separar bem do conteúdo */
+    margin-top: 80px; 
+    
+    /* Uma borda roxa transparente no topo para delimitar o fim da página */
+    border-top: 1px solid rgba(157, 78, 221, 0.2); 
 }
 
+/* Container para alinhar o conteúdo no centro da tela */
 .footer-content {
     max-width: 1200px;
     margin: 0 auto;
+    
+    /* Flexbox para colocar Copyright na esquerda e Links na direita */
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
 }
 
+/* Texto de Copyright */
+.footer p {
+    margin: 0;
+    font-size: 0.9rem; /* Fonte um pouco menor */
+}
+
+/* Container dos links sociais */
 .social-links {
     display: flex;
-    gap: 20px;
+    gap: 25px; /* Espaço entre os links */
 }
 
+/* Estilo dos links (GitHub, LinkedIn, Email) */
 .social-links a {
-    color: #cbd5e1;
-    text-decoration: none;
+    color: var(--text-muted); /* Começam cinzas */
+    text-decoration: none; /* Sem sublinhado */
     font-weight: 500;
-    transition: color 0.2s;
+    transition: all 0.3s ease; /* Animação suave */
+    font-size: 0.95rem;
 }
 
+/* Efeito Hover nos links */
 .social-links a:hover {
-    color: #38bdf8; /* Azul neon ao passar o mouse */
+    color: var(--primary-color); /* Ficam roxo neon ao passar o mouse */
+    
+    /* Adiciono um brilho no texto */
+    text-shadow: 0 0 10px rgba(157, 78, 221, 0.6); 
+    
+    /* O link sobe levemente */
+    transform: translateY(-2px);
 }
 
-/* No celular, empilha tudo */
+/* Ajustes para Celular (Mobile) */
 @media (max-width: 600px) {
     .footer-content {
+        /* No celular, empilho um em cima do outro */
         flex-direction: column;
-        gap: 15px;
+        gap: 20px;
         text-align: center;
     }
 }

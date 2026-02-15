@@ -1,87 +1,132 @@
+/* frontend/src/components/Hero.css */
+
+/* --- Container Principal do Hero --- */
 .hero-container {
-    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); /* Fundo escuro moderno */
+    /* Defini um degradê vertical: Começa no preto absoluto (topo) e vai descendo
+       para um roxo profundo quase preto */
+    background: linear-gradient(180deg, rgba(11,11,11,1) 0%, rgba(36,0,70,0.8) 100%);
+    
+    /* Texto branco para contrastar com o fundo escuro */
     color: white;
-    padding: 80px 20px;
+    
+    /* Espaçamento interno grande para dar imponência */
+    padding: 100px 20px;
+    
+    /* Centraliza tudo (texto e botões) */
     text-align: center;
-    border-radius: 0 0 20px 20px; /* Arredonda só as pontas de baixo */
+    
+    /* Margem embaixo para empurrar a próxima seção */
     margin-bottom: 40px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    
+    /* Uma linha roxa bem sutil na borda inferior para fechar a seção */
+    border-bottom: 1px solid var(--secondary-color);
 }
 
+/* Limita a largura do conteúdo para não ficar esticado em telas ultrawide */
 .hero-content {
     max-width: 800px;
-    margin: 0 auto;
+    margin: 0 auto; /* Centraliza o bloco na horizontal */
 }
 
+/* --- Tipografia --- */
+
+/* A saudação "Olá, sou o Gustavo" */
 .greeting {
-    display: block;
-    font-size: 1.1rem;
-    font-weight: 500;
-    color: #94a3b8; /* Cinza azulado */
-    margin-bottom: 10px;
-}
-
-.title {
-    font-size: 3rem;
-    font-weight: 800;
-    margin: 0 0 20px 0;
-    line-height: 1.2;
-}
-
-.highlight {
-    color: #38bdf8; /* Azul claro neon */
-}
-
-.subtitle {
+    display: block; /* Ocupa a linha inteira */
     font-size: 1.2rem;
-    color: #cbd5e1;
-    margin-bottom: 30px;
-    line-height: 1.6;
+    font-weight: 500; /* Semi-negrito */
+    color: var(--primary-color); /* Roxo neon para chamar atenção logo de cara */
+    margin-bottom: 15px;
+    letter-spacing: 1px; /* Espaçamento entre letras para ficar elegante */
 }
 
-/* BOTÕES */
+/* O título principal "Desenvolvedor Full Stack" */
+.title {
+    font-size: 3.5rem; /* Fonte gigante */
+    font-weight: 900; /* Extra negrito */
+    margin: 0 0 20px 0;
+    line-height: 1.1; /* Linhas mais apertadas para ficar compacto */
+    
+    /* Adicionei um brilho (glow) roxo atrás do texto para parecer "poder mágico" */
+    text-shadow: 0 0 20px rgba(157, 78, 221, 0.3);
+}
+
+/* --- Efeito Degradê no Texto (Highlight) --- */
+/* Essa classe eu aplico na palavra "Full Stack" */
+.highlight {
+    /* 1. Defino o degradê do Roxo para o Branco */
+    background: linear-gradient(45deg, var(--primary-color), #fff);
+    
+    /* 2. Propriedade padrão moderna (o VS Code gosta dessa) */
+    background-clip: text;
+    
+    /* 3. Propriedade para Chrome/Safari (o navegador precisa dessa) */
+    -webkit-background-clip: text;
+    
+    /* 4. Deixo a cor da letra transparente, assim o fundo (degradê) aparece */
+    -webkit-text-fill-color: transparent;
+    
+    /* 5. Fallback: Se o navegador for muito velho, ele pinta de roxo normal */
+    color: var(--primary-color);
+}
+
+/* O subtítulo com a descrição da UFS */
+.subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted); /* Cinza claro para não brigar com o título */
+    margin-bottom: 40px;
+    line-height: 1.6; /* Altura de linha boa para leitura */
+}
+
+/* --- Botões de Ação --- */
 .hero-actions {
     display: flex;
-    justify-content: center;
-    gap: 15px;
+    justify-content: center; /* Centraliza os botões */
+    gap: 20px; /* Espaço entre eles */
 }
 
+/* Botão Principal (Preenchido) */
 .btn-primary {
-    background-color: #38bdf8;
-    color: #0f172a;
-    padding: 12px 24px;
-    border-radius: 8px;
+    background-color: var(--primary-color); /* Roxo */
+    color: white;
+    padding: 12px 30px;
+    border-radius: 4px; /* Cantos levemente quadrados (estilo UI de jogo) */
     font-weight: bold;
-    text-decoration: none;
-    transition: transform 0.2s, background-color 0.2s;
+    text-decoration: none; /* Tira o sublinhado do link */
+    transition: all 0.3s ease; /* Suaviza a animação do mouse */
+    
+    /* Sombra roxa inicial (brilho fraco) */
+    box-shadow: 0 0 10px rgba(157, 78, 221, 0.4);
+    text-transform: uppercase; /* Letras maiúsculas */
 }
 
+/* Efeito ao passar o mouse no Botão Principal */
 .btn-primary:hover {
-    background-color: #0ea5e9;
-    transform: translateY(-2px);
+    background-color: #c77dff; /* Clareia a cor */
+    
+    /* Aumenta o brilho (glow forte) */
+    box-shadow: 0 0 20px rgba(157, 78, 221, 0.8);
+    
+    /* O botão sobe um pouquinho (levitação) */
+    transform: translateY(-3px);
 }
 
+/* Botão Secundário (Borda) */
 .btn-secondary {
-    background-color: transparent;
-    color: #38bdf8;
-    border: 2px solid #38bdf8;
-    padding: 10px 22px;
-    border-radius: 8px;
+    background-color: transparent; /* Fundo transparente */
+    color: var(--text-main); /* Texto branco/cinza */
+    border: 1px solid var(--text-muted); /* Borda cinza */
+    padding: 12px 30px;
+    border-radius: 4px;
     font-weight: bold;
     text-decoration: none;
-    transition: background-color 0.2s;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
 }
 
+/* Efeito ao passar o mouse no Botão Secundário */
 .btn-secondary:hover {
-    background-color: rgba(56, 189, 248, 0.1);
-}
-
-/* Ajuste para celular */
-@media (max-width: 600px) {
-    .title {
-        font-size: 2rem;
-    }
-    .hero-actions {
-        flex-direction: column;
-    }
+    border-color: var(--primary-color); /* Borda fica roxa */
+    color: var(--primary-color); /* Texto fica roxo */
+    box-shadow: 0 0 10px rgba(157, 78, 221, 0.2); /* Brilho sutil */
 }
