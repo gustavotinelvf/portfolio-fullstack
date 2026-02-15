@@ -24,7 +24,7 @@ function About() {
                     
                     {/* Parágrafo 1: Introdução Acadêmica */}
                     <p>
-                        Olá! Sou estudante de <strong>Ciência da Computação na UFS</strong> (Universidade Federal de Sergipe). 
+                        Sou estudante de <strong>Ciência da Computação na UFS</strong> (Universidade Federal de Sergipe). 
                         Sempre fui apaixonado por tecnologia desde pequeno, e com isso minha jornada na programação começou com a curiosidade de entender como as coisas funcionam por trás das telas.
                     </p>
                     
