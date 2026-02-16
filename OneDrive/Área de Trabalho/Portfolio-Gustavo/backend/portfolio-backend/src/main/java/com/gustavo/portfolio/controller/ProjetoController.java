@@ -1,40 +1,51 @@
 package com.gustavo.portfolio.controller;
 
 import com.gustavo.portfolio.dto.ProjetoDTO;
-
-import com.gustavo.portfolio.repository.ProjetoRepository;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.gustavo.portfolio.service.ProjetoService; // Agora usamos o Service, não o Repository
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController // 1. Comunica ao Spring que esta classe é um CONTROLADOR REST, ou seja, ela vai responder a requisições HTTP
-@RequestMapping("/api/projetos") // 2. Define a URL base para todas as rotas deste controlador
-@CrossOrigin(origins = "*") // libera acesso de qualquer lugar
-public class ProjetoController{
+@RestController
+@RequestMapping("/api/projetos")
+@CrossOrigin(origins = "*")
+public class ProjetoController {
 
-    // O "Garçom" precisa de acesso à Cozinha (repostitory)
-    private final ProjetoRepository repository;
+    private final ProjetoService service;
 
-    // injeção de dependência via construtor (questão de boas práticas)
-    public ProjetoController(ProjetoRepository repository) {
-        this.repository = repository;
+    // Injeção de dependência do Serviço
+    public ProjetoController(ProjetoService service) {
+        this.service = service;
     }
 
-    @GetMapping // Precisamos mudar o retorno: agora vamos devolver uma lista de DTOs, não de Entidades
-    public List<ProjetoDTO> listarTodos(){
+    // GET: http://localhost:8080/api/projetos
+    @GetMapping
+    public List<ProjetoDTO> listar() {
+        return service.listarTodos();
+    }
 
-        // Buscamos as entidades no banco (Raw data)
-        var projetosDoBanco = repository.findAll();
+    // POST: http://localhost:8080/api/projetos
+    // @RequestBody diz: "Pegue o JSON que veio e transforme em DTO"
+    @PostMapping
+    public ResponseEntity<ProjetoDTO> criar(@RequestBody ProjetoDTO dto) {
+        ProjetoDTO novoProjeto = service.salvar(dto);
+        // Retorna status 200 (OK) com o projeto criado
+        return ResponseEntity.ok(novoProjeto);
+    }
 
-        // Aqui volto para PF (programação funcional), vista no primeiro período da UFS
-        // .stream() -> transforma a lista numa esteira de produção
-        //.map(ProjetoDTO::new) -> para cada projeto, cria um DTO usando o construtor que fizemos
-        //.toList() -> Empacota tudo numa lista nova
-        return projetosDoBanco.stream()
-                .map(ProjetoDTO::new)
-                .toList();
+    // PUT: http://localhost:8080/api/projetos/1 (onde 1 é o ID)
+    @PutMapping("/{id}")
+    public ResponseEntity<ProjetoDTO> atualizar(@PathVariable Long id, @RequestBody ProjetoDTO dto) {
+        ProjetoDTO atualizado = service.atualizar(id, dto);
+        return ResponseEntity.ok(atualizado);
+    }
+
+    // DELETE: http://localhost:8080/api/projetos/1
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        service.deletar(id);
+        // Retorna 204 No Content (Deu certo, mas não tem nada pra mostrar)
+        return ResponseEntity.noContent().build();
     }
 }
