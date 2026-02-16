@@ -17,7 +17,7 @@ function Hero() {
                 </p>
                 
                 <div className="hero-actions">
-                    <a href="https://linkedin.com/in/seu-linkedin" target="_blank" className="btn-primary">
+                    <a href="https://linkedin.com/in/gustavotinel" target="_blank" className="btn-primary">
                         Meu LinkedIn
                     </a>
                     <a href="#projetos" className="btn-secondary">

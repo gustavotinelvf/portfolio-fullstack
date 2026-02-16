@@ -12,7 +12,7 @@ function About() {
                     {/* Aqui eu puxo minha foto do GitHub. 
                         Se der erro, o 'onError' coloca uma imagem genérica. */}
                     <img 
-                        src="minha-foto.jpeg" 
+                        src="/img/Perfil/minha-foto.jpeg" 
                         alt="Foto de Gustavo Tínel" 
                         onError={(e) => e.target.src = 'https://via.placeholder.com/300x300?text=G'}
                     />
