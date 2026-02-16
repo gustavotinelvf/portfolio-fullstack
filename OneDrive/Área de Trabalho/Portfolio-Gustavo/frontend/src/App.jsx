@@ -1,19 +1,24 @@
-// frontend/src/App.jsx
-
 // Importando os hooks do React:
 // useState -> Para guardar dados na memória (projetos, loading, erro)
 // useEffect -> Para executar ações automáticas (buscar dados ao iniciar)
 import { useState, useEffect } from 'react'
 
-// Importando o Axios, nosso "carteiro" que busca dados no Java
+// Importando o Axios para buscar dados no Java
 import axios from 'axios'
 
-// Importando meus componentes visuais (dividir para conquistar!)
+// O react-router-dom permite que eu tenha várias páginas no mesmo site
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+
+// Importando meus componentes visuais
 import ProjetoCard from './components/ProjetoCard'
 import Hero from './components/Hero'
 import Skills from './components/Skills'
 import About from './components/About' // Seção Sobre Mim
 import Footer from './components/Footer' // Rodapé
+
+// --- NOVO IMPORT ---
+// Importando o componente de Login que acabei de criar
+import Login from './components/Login'
 
 // Importando o estilo global
 import './App.css'
@@ -54,10 +59,10 @@ function App() {
       })
   }, []) // O array vazio [] garante que isso roda só 1 vez
 
-  // --- O QUE VAI PARA A TELA (JSX) ---
-  return (
-    <div className="app-wrapper">
-      
+  // --- COMPONENTE DA PÁGINA INICIAL ---
+  // Função que agrupa os componentes da vitrine pública (mantenho organizado)
+  const HomePage = () => (
+    <>
       {/* 1. HERO SECTION: Apresentação inicial impactante */}
       <Hero />
 
@@ -78,7 +83,7 @@ function App() {
         {loading && (
             <div className="status-message">
                 <div className="spinner"></div>
-                <p>Invocando projetos do banco de dados...</p>
+                <p>Carregando projetos do banco de dados...</p>
             </div>
         )}
 
@@ -92,17 +97,43 @@ function App() {
         {/* Cenário C: Tudo certo? Mostra os cards */}
         {!loading && !error && (
             <main className="projects-grid">
-              {/* Percorro a lista e crio um Card para cada projeto */}
+              {/* Para cada projeto na lista, crio um Card componentizado */}
               {projetos.map(projeto => (
                   <ProjetoCard key={projeto.id} projeto={projeto} />
               ))}
             </main>
         )}
       </div>
+    </>
+  );
 
-      {/* 5. RODAPÉ: Finaliza a página */}
-      <Footer />
-    </div>
+  // --- O QUE VAI PARA A TELA (JSX) ---
+  return (
+    <Router>
+      <div className="app-wrapper">
+        
+        <Routes>
+          {/* Rota Raiz: Onde o público vê meu portfólio profissional */}
+          <Route path="/" element={<HomePage />} />
+
+          {/* Rota de Login: Agora usando o componente formal com formulário */}
+          <Route path="/login" element={<Login />} />
+
+          {/* Rota de Administração: Onde gerenciaremos os projetos após o login */}
+          <Route path="/admin" element={
+            <div className="container">
+              <h2 className="section-title">Painel de Controle</h2>
+              <p style={{textAlign: 'center', color: 'var(--text-muted)'}}>
+                Bem-vindo, Gustavo. O módulo de gerenciamento de projetos está em desenvolvimento.
+              </p>
+            </div>
+          } />
+        </Routes>
+
+        {/* 5. RODAPÉ: Finaliza a página em todas as rotas */}
+        <Footer />
+      </div>
+    </Router>
   )
 }
 
