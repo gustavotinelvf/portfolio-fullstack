@@ -1,5 +1,6 @@
 package com.gustavo.portfolio.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,12 +12,17 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
+
+    // Injetamos o filtro que criamos para validar o token JWT
+    @Autowired
+    private SecurityFilter securityFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -32,6 +38,8 @@ public class SecurityConfigurations {
                 // Qualquer outra acao exige estar logado
                 req.anyRequest().authenticated();
             })
+            // ADICIONADO: Diz para o Spring usar o nosso filtro de token ANTES do filtro de login padrão
+            .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
     }
 
@@ -58,6 +66,7 @@ public class SecurityConfigurations {
             }
         };
     }
+
     // Este metodo ensina o Spring a buscar o usuario no seu banco de dados
     @Bean
     public org.springframework.security.core.userdetails.UserDetailsService userDetailsService(com.gustavo.portfolio.repository.UsuarioRepository repository) {

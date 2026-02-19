@@ -1,69 +1,86 @@
+// frontend/src/components/Login.jsx
+
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+// Importei a lógica de salvar o token
+import { login } from '../services/auth' 
 import './Login.css'
 
-function Login(){
-    // Estados para o formulário
-    // guardo o que eu digito nos campos de email e senha
-    const [email, setEmail] = useState('')
-    const [senha, setSenha] = useState('')
-    const [erro, setErro] = useState('')
+function Login() {
+  // --- ESTADOS DO FORMULÁRIO ---
+  const [email, setEmail] = useState('')
+  const [senha, setSenha] = useState('')
+  const [erro, setErro] = useState('')
 
-    // O useNavigate serve para eu redirecionar o usuário depois do login 
-    const navigate = useNavigate()
+  const navigate = useNavigate()
 
-    // FUNÇÃO DE SUBMIT
-    const handleLogin = (e) => {
-        // evito que a página recarregue ao clicar no botão
-        e.preventDefault()
+  // --- FUNÇÃO DE SUBMIT (A conexão real começa aqui) ---
+  const handleLogin = async (e) => {
+    e.preventDefault() // Impede o recarregamento da página
+    setErro('') // Limpa erros antigos
 
-        // Até então, o que sei fazer é uma validação simples (mock)
-        // Assim que possível irei integrar com o Spring Security + JWT do java
-        if(email === 'admin@gustavo.com' && senha === 'Gust@v0.03'){
-            console.log("Acesso autorizado!")
-            // se der certo, vai para a rota do Dashboard
-            navigate('/admin')
-        } else {
-            // se der erro, exibo a mensagem abaixo na tela
-            setErro("Credenciais inválidas. Tente novamente")
-        }
+    try {
+        // 1. Chamamos o Java no endpoint que você validou no Postman
+        // Enviamos o login e senha no formato JSON que o Java espera
+        const resposta = await axios.post('http://localhost:8080/api/login', {
+            login: email, // O campo no seu DTO Java chama-se "login"
+            senha: senha
+        });
+
+        // 2. Se deu certo (200 OK), pegamos o token da resposta
+        const token = resposta.data.token;
+
+        // 3. Usamos nossa função para salvar esse token no navegador
+        login(token);
+
+        console.log("Login realizado com sucesso! Token guardado.");
+        
+        // 4. Redirecionamos o Gustavo para a área administrativa
+        navigate('/admin');
+
+    } catch (err) {
+        // Se o Java retornar 403 (Forbidden) ou 401, caímos aqui
+        console.error("Falha no login:", err);
+        setErro("E-mail ou senha inválidos. Verifique suas credenciais.");
     }
+  }
 
-    return (
-        <div className = "login-container">
-            <form className = "login-form" onSubmit = {handleLogin}>
-                <h2 className = "login-title">Acesso <span ClassName ="highlight">Restrito</span></h2>
-                <p className = "login-subtitle">Entre com suas credenciais para gerenciar o sistema.</p>
-                {/* Exibo a mensagem de erro apenas se o estaro 'erro' não estiver vazio */}
-                {erro && <div className = "login-error">{erro}</div>}
-                
-                <div className = "input-group">
-                    <label htmlFor = "email">E-mail</label>
-                    <input
-                        type = "email"
-                        id = "email"
-                        value = {email}
-                        onChange = {(e) => setEmail(e.target.value)}
-                        placeholder = "seu@email.com"
-                        required
-                    />
-                </div>
-                
-                <div className = "input-group">
-                    <label htmlFor = "password">Senha</label>
-                    <input
-                        type = "password"
-                        id = "password"
-                        value = {senha}
-                        onChange = {(e) => setSenha(e.target.value)}
-                        placeholder = "••••••••"
-                        required
-                    />
-                </div>
-                <button type = "submit" className = 'btn-login'>Acessar Painel</button>
-            </form>
+  return (
+    <div className="login-container">
+      <form className="login-form" onSubmit={handleLogin}>
+        <h2 className="login-title">Acesso <span className="highlight">Restrito</span></h2>
+        
+        {erro && <div className="login-error">{erro}</div>}
+
+        <div className="input-group">
+          <label htmlFor="email">E-mail Administrativo</label>
+          <input 
+            type="email" 
+            id="email" 
+            value={email}
+            onChange={(e) => setEmail(e.target.value)} // Atualiza o estado ao digitar
+            placeholder="exemplo@admin.com"
+            required 
+          />
         </div>
-    )
+
+        <div className="input-group">
+          <label htmlFor="password">Senha</label>
+          <input 
+            type="password" 
+            id="password" 
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+            placeholder="••••••••"
+            required 
+          />
+        </div>
+
+        <button type="submit" className="btn-login">Autenticar Sistema</button>
+      </form>
+    </div>
+  )
 }
 
 export default Login
