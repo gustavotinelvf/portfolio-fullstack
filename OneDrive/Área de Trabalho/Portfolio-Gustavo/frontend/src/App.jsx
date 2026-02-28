@@ -1,4 +1,3 @@
-// Importando os hooks do React:
 // useState -> Para guardar dados na memória (projetos, loading, erro)
 // useEffect -> Para executar ações automáticas (buscar dados ao iniciar)
 import { useState, useEffect } from 'react'
@@ -7,7 +6,8 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 
 // O react-router-dom permite que eu tenha várias páginas no mesmo site
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+// Adicionei o useNavigate para conseguirmos deslogar e mudar de página
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom'
 
 // Importando meus componentes visuais
 import ProjetoCard from './components/ProjetoCard'
@@ -19,9 +19,64 @@ import Footer from './components/Footer' // Rodapé
 // --- NOVO IMPORT ---
 // Importando o componente de Login que acabei de criar
 import Login from './components/Login'
+// Importando o "porteiro" que criamos para proteger a área do administrador
+import PrivateRoute from './components/PrivateRoute'
+// Importando a função de logout para limpar o token do navegador
+import { logout } from './services/auth'
 
 // Importando o estilo global
 import './App.css'
+
+// Criei este componente interno para podermos usar o hook useNavigate 
+// sem dar erro de contexto do Router
+function AppContent({ projetos, loading, error, HomePage }) {
+  const navigate = useNavigate();
+
+  // Função simples para encerrar a sessão do Gustavo
+  const handleLogout = () => {
+    logout(); // Remove o token do localStorage
+    navigate('/'); // Redireciona para a vitrine pública
+    console.log("Sessão encerrada. O acesso ao admin foi bloqueado novamente.");
+  };
+
+  return (
+    <div className="app-wrapper">
+      <Routes>
+        {/* Rota Raiz: Onde o público vê meu portfólio profissional */}
+        <Route path="/" element={<HomePage />} />
+
+        {/* Rota de Login: Agora usando o componente formal com formulário */}
+        <Route path="/login" element={<Login />} />
+
+        {/* Rota de Administração: Envolvida pela Proteção de Rota (Só eu passo) */}
+        <Route path="/admin" element={
+          <PrivateRoute>
+              <div className="container" style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <h2 className="section-title">Painel de Controle</h2>
+                <p style={{textAlign: 'center', color: 'var(--text-muted)'}}>
+                  Bem-vindo, Gustavo. O módulo de gerenciamento de projetos está em desenvolvimento.
+                </p>
+                
+                {/* Botão de Logout para garantir que só você entre e saia quando quiser */}
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
+                  <button 
+                    onClick={handleLogout}
+                    className="btn-login"
+                    style={{ backgroundColor: '#e74c3c', maxWidth: '200px' }}
+                  >
+                    Encerrar Sessão
+                  </button>
+                </div>
+              </div>
+          </PrivateRoute>
+        } />
+      </Routes>
+
+      {/* 5. RODAPÉ: Finaliza a página em todas as rotas */}
+      <Footer />
+    </div>
+  );
+}
 
 function App() {
   // --- DECLARAÇÃO DE ESTADOS (MEMÓRIA) ---
@@ -108,31 +163,15 @@ function App() {
   );
 
   // --- O QUE VAI PARA A TELA (JSX) ---
+  // Organizado com Router e o conteúdo que gerencia as rotas
   return (
     <Router>
-      <div className="app-wrapper">
-        
-        <Routes>
-          {/* Rota Raiz: Onde o público vê meu portfólio profissional */}
-          <Route path="/" element={<HomePage />} />
-
-          {/* Rota de Login: Agora usando o componente formal com formulário */}
-          <Route path="/login" element={<Login />} />
-
-          {/* Rota de Administração: Onde gerenciaremos os projetos após o login */}
-          <Route path="/admin" element={
-            <div className="container">
-              <h2 className="section-title">Painel de Controle</h2>
-              <p style={{textAlign: 'center', color: 'var(--text-muted)'}}>
-                Bem-vindo, Gustavo. O módulo de gerenciamento de projetos está em desenvolvimento.
-              </p>
-            </div>
-          } />
-        </Routes>
-
-        {/* 5. RODAPÉ: Finaliza a página em todas as rotas */}
-        <Footer />
-      </div>
+      <AppContent 
+        projetos={projetos} 
+        loading={loading} 
+        error={error} 
+        HomePage={HomePage} 
+      />
     </Router>
   )
 }
