@@ -30,20 +30,16 @@ public class SecurityFilter extends OncePerRequestFilter {
         
         // 1. Tenta recuperar o token que o React enviou no cabeçalho "Authorization"
         var tokenJWT = recuperarToken(request);
-        System.out.println(">>> [DEBUG] Método: " + request.getMethod() + " | URI: " + request.getRequestURI());
-        System.out.println(">>> [DEBUG] Token recebido: " + tokenJWT);
 
         // 2. Se houver um token, vamos validar
         if (tokenJWT != null) {
             // Validamos o token e pegamos o dono dele (o "subject" que definimos no TokenService)
             var subject = tokenService.getSubject(tokenJWT);
-            System.out.println(">>> [DEBUG] Subject extraído: " + subject);
             
             // AJUSTE: Verificamos se o subject não é nulo antes de buscar no banco
             if (subject != null) {
                 // Buscamos o usuário no banco para garantir que ele ainda existe e é válido
                 var usuario = repository.findByLogin(subject);
-                System.out.println(">>> [DEBUG] Usuário encontrado: " + usuario);
 
                 if (usuario != null) {
                     // Criamos um objeto de autenticação que o Spring Security entende
@@ -53,7 +49,6 @@ public class SecurityFilter extends OncePerRequestFilter {
                     // Dizemos ao Spring: "Este cara está autenticado, pode deixar ele passar!"
                     // AJUSTE: Forçamos a limpeza de qualquer contexto anterior para evitar o erro 403 persistente
                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                    System.out.println(">>> [DEBUG] Autenticação injetada com sucesso!");
                 }
             }
         }
