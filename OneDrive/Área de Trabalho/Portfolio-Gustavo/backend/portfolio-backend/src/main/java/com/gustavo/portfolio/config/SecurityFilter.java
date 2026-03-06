@@ -1,5 +1,3 @@
-// backend/src/main/java/com/gustavo/portfolio/config/SecurityFilter.java
-
 package com.gustavo.portfolio.config;
 
 import com.gustavo.portfolio.repository.UsuarioRepository;
@@ -32,20 +30,32 @@ public class SecurityFilter extends OncePerRequestFilter {
         
         // 1. Tenta recuperar o token que o React enviou no cabeçalho "Authorization"
         var tokenJWT = recuperarToken(request);
+        System.out.println(">>> [DEBUG] Método: " + request.getMethod() + " | URI: " + request.getRequestURI());
+        System.out.println(">>> [DEBUG] Token recebido: " + tokenJWT);
 
         // 2. Se houver um token, vamos validar
         if (tokenJWT != null) {
             // Validamos o token e pegamos o dono dele (o "subject" que definimos no TokenService)
             var subject = tokenService.getSubject(tokenJWT);
+            System.out.println(">>> [DEBUG] Subject extraído: " + subject);
             
-            // Buscamos o usuário no banco para garantir que ele ainda existe e é válido
-            var usuario = repository.findByLogin(subject);
+            // AJUSTE: Verificamos se o subject não é nulo antes de buscar no banco
+            if (subject != null) {
+                // Buscamos o usuário no banco para garantir que ele ainda existe e é válido
+                var usuario = repository.findByLogin(subject);
+                System.out.println(">>> [DEBUG] Usuário encontrado: " + usuario);
 
-            // Criamos um objeto de autenticação que o Spring Security entende
-            var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-            
-            // Dizemos ao Spring: "Este cara está autenticado, pode deixar ele passar!"
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+                if (usuario != null) {
+                    // Criamos um objeto de autenticação que o Spring Security entende
+                    // AJUSTE: Passamos usuario.getAuthorities() para manter o padrao do Spring
+                    var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+                    
+                    // Dizemos ao Spring: "Este cara está autenticado, pode deixar ele passar!"
+                    // AJUSTE: Forçamos a limpeza de qualquer contexto anterior para evitar o erro 403 persistente
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                    System.out.println(">>> [DEBUG] Autenticação injetada com sucesso!");
+                }
+            }
         }
 
         // 3. Continua o fluxo da requisição (passa para o próximo filtro ou para o Controller)
@@ -56,7 +66,8 @@ public class SecurityFilter extends OncePerRequestFilter {
     private String recuperarToken(HttpServletRequest request) {
         var authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader != null) {
-            return authorizationHeader.replace("Bearer ", "");
+            // AJUSTE: Usamos trim() para garantir que espaços extras não quebrem o token
+            return authorizationHeader.replace("Bearer ", "").trim();
         }
         return null;
     }

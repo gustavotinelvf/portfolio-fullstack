@@ -1,0 +1,5 @@
+# application.properties.example
+spring.datasource.url=${DB_URL:jdbc:postgresql://localhost:5432/portfolio_db}
+spring.datasource.username=${DB_USERNAME:postgres}
+spring.datasource.password=${DB_PASSWORD:SUA_SENHA_AQUI}
+api.security.token.secret=${JWT_SECRET:UM_SEGREDO_QUALQUER}

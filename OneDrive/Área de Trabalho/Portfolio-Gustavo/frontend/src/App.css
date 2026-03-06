@@ -83,3 +83,69 @@ body {
   text-align: center;
   border: 1px solid #ff6b6b;
 }
+
+/* Container do Painel Admin */
+.admin-container {
+    background: #121212;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    margin-top: 40px;
+}
+
+/* Estilização dos Inputs do Admin */
+.admin-form input {
+    background: #1a1a1a !important;
+    border: 1px solid #333 !important;
+    color: white !important;
+    padding: 12px !important;
+    transition: 0.3s;
+}
+
+.admin-form input:focus {
+    border-color: var(--primary-color) !important;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 255, 170, 0.2);
+}
+
+/* Tabela Profissional */
+.admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.admin-table tr {
+    background: #1a1a1a;
+    transition: 0.2s;
+}
+
+.admin-table tr:hover {
+    transform: scale(1.01);
+    background: #222;
+}
+
+.admin-table td {
+    padding: 15px;
+    border: none;
+}
+
+.toast-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 8px;
+  color: white;
+  z-index: 9999;
+  animation: slideIn 0.5s ease-out;
+  font-weight: bold;
+}
+
+.toast-notification.sucesso { background-color: #00ffaa; color: black; }
+.toast-notification.erro { background-color: #e74c3c; }
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}

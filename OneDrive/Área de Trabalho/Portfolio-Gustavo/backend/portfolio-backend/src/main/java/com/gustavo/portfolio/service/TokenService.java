@@ -6,29 +6,31 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.gustavo.portfolio.model.Usuario;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority; // Importação necessária
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 
 @Service
 public class TokenService {
 
-    // Essa chave deve ser secreta e complexa. 
-    // Por enquanto, definimos um valor padrao se nao encontrar no application.properties
-    @Value("${api.security.token.secret:minha-chave-secreta-123}")
+    @Value("${api.security.token.secret:sequencia_longa_e_aleatoria_que_eu_acabei_de_inventar_com_toda_a_criatividade_restante!Gustavo2003@}")
     private String secret;
 
     public String gerarToken(Usuario usuario) {
         try {
-            // Algoritmo HMAC256 para assinar o token com a nossa chave secreta
             Algorithm algoritmo = Algorithm.HMAC256(secret);
             
+            // EXTRAÇÃO DAS ROLES: Pegamos o ROLE_ADMIN que você definiu no Usuario.java
+            var authorities = usuario.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .toList();
+
             return JWT.create()
-                    .withIssuer("portfolio-api") // Quem emitiu o token
-                    .withSubject(usuario.getLogin()) // De quem e este token
-                    .withExpiresAt(dataExpiracao()) // Quando este cracha vence
+                    .withIssuer("portfolio-api")
+                    .withSubject(usuario.getLogin())
+                    .withClaim("roles", authorities) // ADICIONADO: Salvando o poder do Gustavo no Token
+                    .withExpiresAt(dataExpiracao())
                     .sign(algoritmo);
         } catch (JWTCreationException exception) {
             throw new RuntimeException("Erro ao gerar token jwt", exception);
@@ -44,12 +46,11 @@ public class TokenService {
                     .verify(tokenJWT)
                     .getSubject();
         } catch (JWTVerificationException exception) {
-            throw new RuntimeException("Token JWT invalido ou expirado!");
+            return null; // Retornamos null para o SecurityFilter saber que deu erro
         }
     }
 
-    // O token vai valer por 2 horas para garantir seguranca
     private Instant dataExpiracao() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+        return Instant.now().plusSeconds(7200);
     }
 }

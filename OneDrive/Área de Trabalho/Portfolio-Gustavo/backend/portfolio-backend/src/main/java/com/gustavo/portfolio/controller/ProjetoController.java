@@ -9,7 +9,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/projetos")
-@CrossOrigin(origins = "*")
 public class ProjetoController {
 
     private final ProjetoService service;

@@ -5,7 +5,7 @@ import { getToken } from "./auth";
 
 // 1. Criamos uma instância do Axios com a URL base do nosso java
 const api = axios.create({
-    baseURL: "http://localhost:8080"
+    baseURL: import.meta.env.VITE_API_URL
 });
 
 // 2. Criams um "Interceptor"
@@ -13,8 +13,7 @@ const api = axios.create({
 // antes delas saírem do navegador para o servidor
 api.interceptors.request.use(async config => {
     // buscamos o token que salvamos na hora do login
-    const token = getToken();
-
+    const token = localStorage.getItem('portfolio-Token');
     // Se o token existir, ou seja, se tiver logado
     if(token){
         // adicionamos o token no cabeçalho da requisição

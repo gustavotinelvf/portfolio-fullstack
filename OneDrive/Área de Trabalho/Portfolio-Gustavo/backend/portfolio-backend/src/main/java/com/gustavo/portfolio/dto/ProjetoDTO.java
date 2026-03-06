@@ -10,7 +10,9 @@ public record ProjetoDTO(
     String descricao,
     String imagemUrl,
     String linkGithub,
-    String linkDeploy
+    String linkDeploy,
+    String linguagem,
+    String tipo
 ){
     // construtor especial para converter a Entidade em DTO
     // vai pegar o "produto bruto" e transformar no DTO
@@ -20,7 +22,9 @@ public record ProjetoDTO(
         projeto.getDescricao(),
         projeto.getImagemUrl(),
         projeto.getLinkGithub(),
-        projeto.getLinkDeploy()
+        projeto.getLinkDeploy(),
+        projeto.getLinguagem(),
+        projeto.getTipo()
     );
     }
 }

@@ -33,6 +33,8 @@ public class ProjetoService{
         projeto.setImagemUrl(dto.imagemUrl());
         projeto.setLinkGithub(dto.linkGithub());
         projeto.setLinkDeploy(dto.linkDeploy()); 
+        projeto.setLinguagem(dto.linguagem());
+        projeto.setTipo(dto.tipo());
 
         // O banco salva e devolve a entidade com o ID gerado
         Projeto salvo = repository.save(projeto);
@@ -53,6 +55,8 @@ public class ProjetoService{
         projeto.setImagemUrl(dto.imagemUrl());
         projeto.setLinkGithub(dto.linkGithub());
         projeto.setLinkDeploy(dto.linkDeploy());
+        projeto.setLinguagem(dto.linguagem());
+        projeto.setTipo(dto.tipo());
 
         Projeto atualizado = repository.save(projeto);
         return new ProjetoDTO(atualizado);

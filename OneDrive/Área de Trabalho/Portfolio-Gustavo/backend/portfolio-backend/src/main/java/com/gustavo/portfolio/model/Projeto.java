@@ -1,26 +1,27 @@
 package com.gustavo.portfolio.model;
 
-import jakarta.persistence.*; // importa as coisas de Banco de Dados (JPA)
-import lombok.Data; // importa o Lombok para gerar getters, setters, etc.
+import jakarta.persistence.*;
+import lombok.Data;
 
-@Entity // 1. Comunica ao Spring que esta classe é uma TABELA no banco de dados
-@Data // 2. O Lombok gera automaticamente: Getters, Setters, toString, equals, hashCode, etc.
-      // Sem isso, teríamos que escrever umas 50 linhas de código só para os getters e setters
-
-
+@Entity
+@Data
 public class Projeto {
-    @Id // 3. Diz que este campo é a CHAVE PRIMÁRIA da tabela, ou seja, o identificador único de cada registro
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String titulo;
 
-    @Column(length = 500) // bom para configurar detalhes. Não é obrigatória se o nome for igual ao nome da coluna no banco
+    @Column(length = 500)
     private String descricao;
 
-    private String imagemUrl; // link da imagem
+    private String imagemUrl;
 
-    private String linkGithub; // link do repositório no GitHub
+    private String linkGithub;
     
-    private String linkDeploy; // link do projeto online (se tiver)
+    private String linkDeploy;
+
+    private String linguagem; // Ex: Java, C, JS
+    
+    private String tipo;      // Ex: Aplicação Web, Jogo, Landing Page
 }

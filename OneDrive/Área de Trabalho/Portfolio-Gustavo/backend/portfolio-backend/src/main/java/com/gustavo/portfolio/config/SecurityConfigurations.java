@@ -13,14 +13,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
 
-    // Injetamos o filtro que criamos para validar o token JWT
     @Autowired
     private SecurityFilter securityFilter;
 
@@ -28,17 +28,31 @@ public class SecurityConfigurations {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
             .csrf(csrf -> csrf.disable()) // Desabilita CSRF para APIs Stateless
-            .cors(cors -> cors.configure(http)) // Habilita o CORS que configuraremos abaixo
-            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) 
+            // CORREÇÃO FINAL: CORS configurado aqui dentro do Spring Security, sem bean separado
+            // Isso evita conflito de ordem de filtros que causava o bloqueio do OPTIONS/PUT
+            .cors(cors -> cors.configurationSource(request -> {
+                CorsConfiguration config = new CorsConfiguration();
+                config.setAllowedOrigins(Arrays.asList("http://localhost:5173")); // Porta padrão do Vite/React
+                config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "Accept", "X-Requested-With", "Origin"));
+                config.setAllowCredentials(true);
+                return config;
+            }))
+            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(req -> {
-                // Permite login e consulta de projetos sem autenticacao
+                // Rota de login sempre liberada
                 req.requestMatchers(HttpMethod.POST, "/api/login").permitAll();
+
+                // AJUSTE: Liberando explicitamente o GET de projetos para o público voltar a ver
                 req.requestMatchers(HttpMethod.GET, "/api/projetos/**").permitAll();
-                
-                // Qualquer outra acao exige estar logado
+
+                // AJUSTE: Liberando o pre-flight (OPTIONS) para o navegador não barrar o Axios
+                req.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
+
+                // AJUSTE: Agora qualquer usuario logado pode salvar ou excluir projetos
                 req.anyRequest().authenticated();
             })
-            // ADICIONADO: Diz para o Spring usar o nosso filtro de token ANTES do filtro de login padrão
+            // Filtro de token antes do filtro de login padrão
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
     }
@@ -51,20 +65,6 @@ public class SecurityConfigurations {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    // --- CONFIGURACAO DE CORS PARA O REACT CONSEGUIR ACESSAR ---
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173") // Porta padrao do seu Vite/React
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*");
-            }
-        };
     }
 
     // Este metodo ensina o Spring a buscar o usuario no seu banco de dados
